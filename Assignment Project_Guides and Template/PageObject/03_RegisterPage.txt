@@ -1,0 +1,109 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+# TODO: Write Documentation e.g. User Registration Test scenario with verification, valid and invalid credentials.
+
+Documentation	Testing the user registration functionality on GitLab.
+                Register Test scenarios with valid credentials, invalid credentials,
+                duplicate accounts, and empty field validations.
+
+# TODO: Write Precondition, Postcondition, Tags
+
+Pre Condition	Open Browser    https://gitlab.com/users/sign_up
+Post Condition	Close All Browsers
+Tags	        Register, TS-3-Register
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Registration field variables
+
+LoginUrl = https://gitlab.com/users/sign_up
+FirstName =         TestUser
+LastName =          Tester
+Username =          testuser_gitlab_demo
+Email =             testuser_demo@example.com
+Password =          SecurePass123!
+SameUsername =      testuser_gitlab_demo_1
+InvalidEmail =      invalid-email-format
+EmptyField =
+WeakPassword =      123
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# TODO: Write Positive and Negative Test Cases and Test Process steps (Think about possible test cases)
+
+# Positive Test examples are below write test process steps for each below test case
+
+	Register user with valid username and password 
+		Navigate To Register Page    LoginUrl
+		Input First Name             FirstName
+		Input Last Name              LastName
+		Input Username               Username
+		Input Email Address          Email
+		Input Password               Password
+		Click Register Button
+		Verify Page Should Contain   Welcome to GitLab
+		Verify That Confirmation Email Is Sent To    Email
+
+# Negative Test examples keywords are below write test process steps for each below test case 
+
+	Register User With Already Existing Username
+		Navigate To Register Page    LoginUrl
+		Input First Name             FirstName
+		Input Last Name              LastName
+		Input Username               SameUsername
+		Input Email Address          Email
+		Input Password               Password
+		Click Register Button
+		Verify Page Should Contain   Username has already been taken
+
+	Register User With Empty Password
+		Navigate To Register Page    LoginUrl
+		Input First Name             FirstName
+		Input Last Name              LastName
+		Input Username               Username
+		Input Email Address          Email
+		Input Password               EmptyField
+		Click Register Button
+		Verify Page Should Contain   Password can't be blank
+
+	Register User With Invalid Email Format
+		Navigate To Register Page    LoginUrl
+		Input First Name             FirstName
+		Input Last Name              LastName
+		Input Username               Username
+		Input Email Address          InvalidEmail
+		Input Password               Password
+		Click Register Button
+		Verify Page Should Contain   Email is invalid
+
+	Register User With All Empty Fields
+		Navigate To Register Page    LoginUrl
+		Input First Name             EmptyField
+		Input Last Name              EmptyField
+		Input Username               EmptyField
+		Input Email Address          EmptyField
+		Input Password               EmptyField
+		Click Register Button
+		Verify Page Should Contain   This field is required
+
+	Register User With Too Short Password
+		Navigate To Register Page    LoginUrl
+		Input First Name             FirstName
+		Input Last Name              LastName
+		Input Username               Username
+		Input Email Address          Email
+		Input Password               WeakPassword
+		Click Register Button
+		Verify Page Should Contain   Password is too short
+
+
+

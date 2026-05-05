@@ -1,0 +1,77 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+Documentation	Testing the Issue page functionality on GitLab.
+                Issue Test scenarios: CRUD Operation: Create, Read, Update, Delete
+                Issues within an existing GitLab project.
+
+
+# TODO: Write Precondition and Postcondition, Tags 
+
+Pre Condition	Open Browser    https://gitlab.com/users/sign_in    Login With Valid Credentials
+                A project must already be created by the user before running these tests.
+Post Condition	Close All Browsers
+Tags	        Issue, TS-5-Issue, CRUD
+
+#******************* Common Variables ********************
+
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+# TODO: Write Issue creation field variables, Updated name of the issue
+
+IssuePageUrl =      https://gitlab.com/your-username/first-project/-/issues/new
+IssueListUrl =      https://gitlab.com/your-username/first-project/-/issues
+IssueName =         First Issue - Login button not responding
+UpdatedIssueName =  First Issue - Login button unresponsive on mobile
+SecondIssueName =   First Issue - Login button unresponsive on mobile
+IssueDescription =  The login button does not respond when clicked on mobile devices.
+EmptyIssueName =
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# TODO: Write Positive Test Cases and Test Process steps
+
+# Positive Test examples are below write test process steps for each below test case
+
+	Create Issue With Valid Title And Description
+		Navigate To New Issue Page       IssuePageUrl
+		Input Issue Title                IssueName
+		Input Issue Description          IssueDescription
+		Click Submit Issue Button
+		Verify Page Should Contain       Issue created.
+		Verify Issue Title Is Visible    IssueName
+
+	Update Name Of Existing Issue
+		Navigate To Issue List Page      IssueListUrl
+		Click On Issue                   IssueName
+		Click Edit Issue Button
+		Clear Issue Title Field
+		Input Issue Title                UpdatedIssueName
+		Click Save Changes Button
+		Verify Page Should Contain       Issue was successfully updated.
+		Verify Issue Title Is Visible    UpdatedIssueName
+
+	Create Second Issue With Previous Updated Name
+		Navigate To New Issue Page       IssuePageUrl
+		Input Issue Title                SecondIssueName
+		Input Issue Description          IssueDescription
+		Click Submit Issue Button
+		Verify Page Should Contain       Issue created.
+		Verify Page Should Contain       SecondIssueName
+		Verify That Two Issues With Same Name Exist    SecondIssueName
+
+	Delete First Issue
+		Navigate To Issue List Page      IssueListUrl
+		Click On First Issue             IssueName
+		Click Edit Pencil Icon
+		Click Delete Issue Option
+		Confirm Deletion In Dialog
+		Verify Page Should Contain       Issue was deleted.
+		Verify Issue Is Not Listed       IssueName
+
